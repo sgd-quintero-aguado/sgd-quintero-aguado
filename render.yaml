@@ -44,10 +44,7 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        fromService:
-          name: sgd-quintero-backend
-          type: web
-          property: host
+        value: https://sgd-quintero-backend.onrender.com/api
     routes:
       - type: rewrite
         source: /*
