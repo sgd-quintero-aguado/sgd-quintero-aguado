@@ -6,6 +6,7 @@ services:
     rootDir: backend
     buildCommand: npm install
     startCommand: npm start
+    plan: free
     envVars:
       - key: NODE_ENV
         value: production
@@ -34,15 +35,12 @@ services:
         sync: false
       - key: APP_URL
         sync: false   # URL del frontend, ej: https://sgd-quintero-frontend.onrender.com
-    disk:
-      name: sgd-data
-      mountPath: /opt/render/project/src/uploads
-      sizeGB: 1
 
   # ─── FRONTEND (React / Vite) ──────────────────────────────────────────────
   - type: web
     name: sgd-quintero-frontend
     runtime: static
+    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
