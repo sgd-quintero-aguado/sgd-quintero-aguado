@@ -15,9 +15,14 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middlewares
+// Middlewares — normaliza FRONTEND_URL por si Render lo inyecta sin https://
+const rawFrontend = process.env.FRONTEND_URL || '';
+const allowedOrigin = rawFrontend
+  ? (rawFrontend.startsWith('http') ? rawFrontend : `https://${rawFrontend}`)
+  : '*';
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*'
+  origin: allowedOrigin,
+  credentials: true
 }));
 app.use(express.json());
 
