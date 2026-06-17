@@ -1,0 +1,35 @@
+# Dependencias
+node_modules/
+**/node_modules/
+
+# Variables de entorno (¡NUNCA subir a Git!)
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Credenciales Google (¡SECRETO - NO subir!)
+backend/google-credentials.json
+backend/sgd-quintero-aguado-*.json
+sgd-quintero-aguado-*.json
+client_secret_*.json
+
+# Base de datos local (se regenera en producción)
+backend/sgd.db
+backend/sgd.db-journal
+
+# Archivos subidos localmente
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Build del frontend
+frontend/dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor
+.DS_Store
+Thumbs.db
+.vscode/

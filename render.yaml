@@ -1,0 +1,58 @@
+services:
+  # ─── BACKEND (Node.js API) ───────────────────────────────────────────────
+  - type: web
+    name: sgd-quintero-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: FRONTEND_URL
+        fromService:
+          name: sgd-quintero-frontend
+          type: web
+          property: host
+      # Pega el contenido de google-credentials.json aquí (como texto JSON en una línea)
+      - key: GOOGLE_CREDENTIALS_JSON
+        sync: false   # Lo ingresas manualmente en el dashboard de Render
+      - key: GOOGLE_DRIVE_FOLDER_ID
+        value: 1iCDJxGgxGrml8aRE_pzTxK-PaxECXM0O
+      # Correo real (opcional - sin esto usa Ethereal para pruebas)
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: APP_URL
+        sync: false   # URL del frontend, ej: https://sgd-quintero-frontend.onrender.com
+    disk:
+      name: sgd-data
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1
+
+  # ─── FRONTEND (React / Vite) ──────────────────────────────────────────────
+  - type: web
+    name: sgd-quintero-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: sgd-quintero-backend
+          type: web
+          property: host
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
